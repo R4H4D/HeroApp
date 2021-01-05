@@ -22,12 +22,11 @@ class _DashboardState extends State<Dashboard> {
         title: Center(
           child: TextField(
             decoration: InputDecoration(
-              fillColor: Colors.grey.shade300,
+              fillColor: Colors.grey.shade50,
               filled: true,
               hintText: "Search",
               isDense: true,
-              suffixIcon: Material(
-                elevation: 5.0,
+              prefixIcon: Material(
                 borderRadius: BorderRadius.circular(60),
                 child: Icon(
                   Icons.search,
@@ -102,12 +101,12 @@ class _DashboardState extends State<Dashboard> {
     return InkWell(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 120.0,
+        height: 100.0,
         child: Card(
           color: Colors.black45,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ),
         ),
       ),
@@ -137,7 +136,7 @@ class HeroCard extends StatelessWidget {
             child: Image.asset(
               hero.image,
               fit: BoxFit.cover,
-              height: 175,
+              height: 150,
               width: 200,
             ),
           ),
