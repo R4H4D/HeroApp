@@ -2,40 +2,65 @@ import 'package:hero/src/util/constraints.dart';
 import 'package:hero/src/model/hero.dart';
 
 class Helper {
-  static List<ActionHero> getAllHeroes() {
+  static List<Hero> getAllHeroes() {
+    List<Hero> heroList = heroes;
+    heroList.sort((a, b) => b.id.compareTo(a.id));
     return heroes;
   }
 
-  static ActionHero getHeroById(int id) {
-    return heroes.firstWhere((item) => item.id == id);
+  static Hero getHeroById(int id) {
+    return heroes.firstWhere((hero) => hero.id == id);
   }
 
-  // ignore: missing_return
-  static bool createHero(ActionHero hero) {
-    heroes.add(hero);
+  static bool createHero(Hero hero) {
+    try {
+      heroes.add(hero);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
-  // ignore: missing_return
-  static bool updateHero(ActionHero hero) {
-    //heroes.firstWhere((item) => item.id==id);
-    int index = heroes.indexWhere((item) => item.id == hero.id);
-    heroes[index] = hero;
+  static bool updateHero(Hero hero) {
+    try {
+      bool flag = deleteHero(hero.id);
+      if (flag) {
+        flag = createHero(hero);
+        return flag;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
   }
 
-  static List<ActionHero> searchHero(String key) {
-    return heroes
-        .where((item) => item.name.toLowerCase().contains(key.toLowerCase()))
+  static List<Hero> searchHero(String key) {
+    return getAllHeroes()
+        .where(
+            (hero) => hero.name.toLowerCase().startsWith(key.toLowerCase()) || hero.convertOrigin().toLowerCase() == key.toLowerCase())
         .toList();
   }
 
   static bool deleteHero(int id) {
-    int index = heroes.indexWhere((item) => item.id == id);
-    return heroes.remove(index);
+    try {
+      heroes.removeWhere((hero) => hero.id == id);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
-  // ignore: missing_return
-  static ActionHero duplicateHero(ActionHero hero) {
-    heroes.add(hero);
-    heroes.add(hero);
+  static Hero duplicateHero(Hero hero) {
+    Hero newHero = Hero(
+        id: getAllHeroes().first.id+1,
+        name: "${hero.name} - Duplicate",
+        health: hero.health,
+        charisma: hero.charisma,
+        stamina: hero.stamina,
+        origin: hero.origin
+    );
+    bool flag = createHero(newHero);
+    return flag ? newHero : null;
   }
 }

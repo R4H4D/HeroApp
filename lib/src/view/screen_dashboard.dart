@@ -3,158 +3,143 @@ import 'package:flutter/material.dart';
 import 'package:hero/src/view/screen_hero_details.dart';
 import 'package:hero/src/util/constraints.dart';
 import 'package:hero/src/util/helper.dart';
-import 'package:hero/src/model/hero.dart';
+import 'package:hero/src/model/hero.dart' as model;
+import 'package:hero/src/view/widget/widget_insert_hero.dart';
 
-class Dashboard extends StatefulWidget {
+class DashboardScreen extends StatefulWidget {
   @override
-  _DashboardState createState() => _DashboardState();
+  _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardState extends State<Dashboard> {
-  List<ActionHero> filteredHeroes = [];
+class _DashboardScreenState extends State<DashboardScreen> {
+  List<model.Hero> heroList = [];
+
+  @override
+  void initState() {
+    heroList = Helper.getAllHeroes();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 75,
-        backgroundColor: Colors.indigo.shade900,
-        title: Center(
-          child: TextField(
-            decoration: InputDecoration(
-              fillColor: Colors.grey.shade50,
-              filled: true,
-              hintText: "Search",
-              isDense: true,
-              prefixIcon: Material(
-                borderRadius: BorderRadius.circular(60),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                  size: 24,
-                ),
-              ),
-              contentPadding: EdgeInsets.all(15),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(20),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => InsertHero(
+                onSuccess: () {
+                  setState(() {
+
+                  });
+                },
               ),
             ),
-            onChanged: (text) {
-              text = text.toLowerCase();
-              print(text);
-              setState(
-                () {
-                  filteredHeroes = Helper.searchHero(text);
-                },
-              );
-            },
-          ),
-        ),
+          );
+        },
       ),
-      body: Container(
-        margin: EdgeInsets.only(top: 25),
+      body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
+            Container(
+              margin: EdgeInsets.all(16),
+              width: MediaQuery.of(context).size.width,
+              height: 54,
+              child: TextField(
+                onChanged: (key) {
+                  setState(() {
+                    if (key.isNotEmpty) {
+                      heroList = Helper.searchHero(key);
+                    } else {
+                      heroList = Helper.getAllHeroes();
+                    }
+                  });
+                },
+                decoration: InputDecoration(
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    hintText: "Search",
+                    border: InputBorder.none),
+              ),
+            ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.builder(
-                  itemCount: filteredHeroes.isEmpty
-                      ? heroes.length
-                      : filteredHeroes.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20,
-                      childAspectRatio: 0.75),
-                  itemBuilder: (context, index) {
-                    return HeroCard(
-                      hero: filteredHeroes.isEmpty
-                          ? heroes[index]
-                          : filteredHeroes[index],
-                      press: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HeroDetails(
-                                    hero: heroes[index],
-                                  ),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  model.Hero hero = heroList[index];
+                  return ListTile(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HeroDetails(
+                            id: hero.id, onRefresh: () {
+                              setState(() {
+
+                              });
+                            },
                           ),
+                        ),
+                      );
+                    },
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.grey.shade100,
+                      child: Text(
+                        hero.convertOrigin(),
+                        style: TextStyle(fontSize: 9),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                    title: Text(hero.name),
+                    subtitle: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.battery_charging_full),
+                                SizedBox(width: 4),
+                                Text("${hero.stamina}"),
+                              ],
+                            ),
+                            SizedBox(width: 24),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.medical_services_outlined),
+                                SizedBox(width: 4),
+                                Text("${hero.health}"),
+                              ],
+                            ),
+                            SizedBox(width: 24),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.person),
+                                SizedBox(width: 4),
+                                Text("${hero.charisma}")
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: heroes.length,
+                scrollDirection: Axis.vertical,
+                physics: ScrollPhysics(),
               ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(CupertinoIcons.person_add),
-        onPressed: () {},
-      ),
-      backgroundColor: Colors.black54,
-    );
-  }
-
-  Widget heroCard(Hero hero, BuildContext context) {
-    return InkWell(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 100.0,
-        child: Card(
-          color: Colors.black45,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HeroCard extends StatelessWidget {
-  final ActionHero hero;
-  final Function press;
-
-  const HeroCard({
-    Key key,
-    this.hero,
-    this.press,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset(
-              hero.image,
-              fit: BoxFit.cover,
-              height: 150,
-              width: 200,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Text(
-              hero.name,
-              style: TextStyle(
-                  color: Colors.blue.shade900,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
-            ),
-          ),
-          Text(
-            "Id : ${hero.id}",
-            style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
-          ),
-        ],
       ),
     );
   }

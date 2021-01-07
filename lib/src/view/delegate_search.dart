@@ -24,4 +24,5 @@ class SearchWidget extends SearchDelegate<String> {
     // TODO: implement buildSuggestions
     throw UnimplementedError();
   }
+
 }

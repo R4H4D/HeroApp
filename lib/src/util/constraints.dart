@@ -5,50 +5,50 @@ enum Origin {
   Marvel,
 }
 
-List<ActionHero> heroes = [
-  ActionHero(
+List<Hero> heroes = [
+  Hero(
     id: 1,
     name: "Batman",
     health: 65,
     stamina: 70,
     charisma: 95,
     origin: Origin.DC,
-    image: "assets/images/batman.jpg",
+    //image: "assets/images/batman.jpg",
   ),
-  ActionHero(
+  Hero(
     id: 2,
     name: "Superman",
     health: 100,
     stamina: 100,
     charisma: 90,
     origin: Origin.DC,
-    image: "assets/images/superman.jpg",
+    //image: "assets/images/superman.jpg",
   ),
-  ActionHero(
+  Hero(
     id: 3,
     name: "Joker",
     health: 60,
     stamina: 60,
     charisma: 100,
     origin: Origin.DC,
-    image: "assets/images/joker.jpg",
+    //image: "assets/images/joker.jpg",
   ),
-  ActionHero(
+  Hero(
     id: 4,
     name: "Captain America",
     health: 90,
     stamina: 100,
     charisma: 90,
     origin: Origin.Marvel,
-    image: "assets/images/captain.jpg",
+    //image: "assets/images/captain.jpg",
   ),
-  ActionHero(
+  Hero(
     id: 5,
     name: "Iron Man",
     health: 85,
     stamina: 85,
     charisma: 95,
     origin: Origin.Marvel,
-    image: "assets/images/iron_man.jpg",
+    //image: "assets/images/iron_man.jpg",
   ),
 ];
