@@ -5,8 +5,10 @@ import 'package:hero/src/model/hero.dart' as model;
 
 class HeroDetails extends StatefulWidget {
   final int id;
-  final Function onRefresh;
-  HeroDetails({this.id, this.onRefresh});
+  final Function() onRefresh;
+  final Function() onSuccess;
+
+  HeroDetails({this.id, this.onRefresh, this.onSuccess});
 
   @override
   _HeroDetailsState createState() => _HeroDetailsState();
@@ -21,26 +23,45 @@ class _HeroDetailsState extends State<HeroDetails> {
         automaticallyImplyLeading: true,
         title: Text(hero.name),
         actions: [
-          IconButton(icon: Icon(Icons.edit), onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => UpdateHero(widget.id, () {
-              setState(() {
-
-              });
-            })));
-          }),
-          IconButton(icon: Icon(Icons.copy), onPressed: () {
-            if (Helper.duplicateHero(hero) != null) {
-              widget.onRefresh();
-            }
-          }),
-          IconButton(icon: Icon(Icons.delete), onPressed: () {
-            if (Helper.deleteHero(widget.id)) {
-              widget.onRefresh();
-              Navigator.of(context).pop();
-            } else {
-              showDialog(context: context, builder: (context) => AlertDialog(title: Text("Something went wrong!"),));
-            }
-          }),
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UpdateHero(
+                    onSuccess: () {
+                      widget.onRefresh();
+                      setState(() {});
+                    },
+                    id: widget.id
+                  ),
+                ),
+              );
+            },
+          ),
+          IconButton(
+              icon: Icon(Icons.copy),
+              onPressed: () {
+                if (Helper.duplicateHero(hero) != null) {
+                  widget.onRefresh();
+                }
+              }),
+          IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                if (Helper.deleteHero(widget.id)) {
+                  Navigator.of(context).pop();
+                  widget.onRefresh();
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text("Something went wrong!"),
+                          ),
+                  );
+                }
+              },
+          ),
         ],
       ),
       body: Container(
@@ -51,7 +72,9 @@ class _HeroDetailsState extends State<HeroDetails> {
             SizedBox(height: 16),
             Text("Health: ${hero.health}"),
             SizedBox(height: 16),
-            Text("Charisma: ${hero.charisma}")
+            Text("Charisma: ${hero.charisma}"),
+            SizedBox(height: 16),
+            Text("Origin: ${hero.convertOrigin()}"),
           ],
         ),
       ),

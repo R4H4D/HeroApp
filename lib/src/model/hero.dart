@@ -26,6 +26,9 @@ class Hero {
       case Origin.Marvel:
         return "Marvel";
         break;
+      case Origin.None:
+        return null;
+        break;
       default:
         return "Unknown";
     }

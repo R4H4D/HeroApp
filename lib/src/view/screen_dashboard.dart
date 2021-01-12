@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hero/src/view/screen_hero_details.dart';
-import 'package:hero/src/util/constraints.dart';
 import 'package:hero/src/util/helper.dart';
 import 'package:hero/src/model/hero.dart' as model;
 import 'package:hero/src/view/widget/widget_insert_hero.dart';
@@ -31,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               builder: (context) => InsertHero(
                 onSuccess: () {
                   setState(() {
-
+                    heroList = Helper.getAllHeroes();
                   });
                 },
               ),
@@ -75,7 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           builder: (context) => HeroDetails(
                             id: hero.id, onRefresh: () {
                               setState(() {
-
+                                heroList = Helper.getAllHeroes();
                               });
                             },
                           ),
@@ -133,7 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   );
                 },
-                itemCount: heroes.length,
+                itemCount: heroList.length,
                 scrollDirection: Axis.vertical,
                 physics: ScrollPhysics(),
               ),

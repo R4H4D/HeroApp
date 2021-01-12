@@ -3,10 +3,11 @@ import 'package:hero/src/model/hero.dart';
 enum Origin {
   DC,
   Marvel,
+  None,
 }
 
-List<Hero> heroes = [
-  Hero(
+Map<int, Hero> heroes = {
+  0: Hero(
     id: 1,
     name: "Batman",
     health: 65,
@@ -15,7 +16,7 @@ List<Hero> heroes = [
     origin: Origin.DC,
     //image: "assets/images/batman.jpg",
   ),
-  Hero(
+  1: Hero(
     id: 2,
     name: "Superman",
     health: 100,
@@ -24,7 +25,7 @@ List<Hero> heroes = [
     origin: Origin.DC,
     //image: "assets/images/superman.jpg",
   ),
-  Hero(
+  2: Hero(
     id: 3,
     name: "Joker",
     health: 60,
@@ -33,7 +34,7 @@ List<Hero> heroes = [
     origin: Origin.DC,
     //image: "assets/images/joker.jpg",
   ),
-  Hero(
+  3: Hero(
     id: 4,
     name: "Captain America",
     health: 90,
@@ -42,7 +43,7 @@ List<Hero> heroes = [
     origin: Origin.Marvel,
     //image: "assets/images/captain.jpg",
   ),
-  Hero(
+  4: Hero(
     id: 5,
     name: "Iron Man",
     health: 85,
@@ -51,4 +52,4 @@ List<Hero> heroes = [
     origin: Origin.Marvel,
     //image: "assets/images/iron_man.jpg",
   ),
-];
+};
