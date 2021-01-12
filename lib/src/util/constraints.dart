@@ -7,7 +7,7 @@ enum Origin {
 }
 
 Map<int, Hero> heroes = {
-  0: Hero(
+  1: Hero(
     id: 1,
     name: "Batman",
     health: 65,
@@ -16,7 +16,7 @@ Map<int, Hero> heroes = {
     origin: Origin.DC,
     //image: "assets/images/batman.jpg",
   ),
-  1: Hero(
+  2: Hero(
     id: 2,
     name: "Superman",
     health: 100,
@@ -25,7 +25,7 @@ Map<int, Hero> heroes = {
     origin: Origin.DC,
     //image: "assets/images/superman.jpg",
   ),
-  2: Hero(
+  3: Hero(
     id: 3,
     name: "Joker",
     health: 60,
@@ -34,7 +34,7 @@ Map<int, Hero> heroes = {
     origin: Origin.DC,
     //image: "assets/images/joker.jpg",
   ),
-  3: Hero(
+  4: Hero(
     id: 4,
     name: "Captain America",
     health: 90,
@@ -43,7 +43,7 @@ Map<int, Hero> heroes = {
     origin: Origin.Marvel,
     //image: "assets/images/captain.jpg",
   ),
-  4: Hero(
+  5: Hero(
     id: 5,
     name: "Iron Man",
     health: 85,
