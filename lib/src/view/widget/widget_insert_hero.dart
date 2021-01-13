@@ -51,8 +51,6 @@ class _InsertHeroState extends State<InsertHero> {
                   setState(() {
                     stamina = val.toInt();
                   });
-                } else {
-                  return null;
                 }
               },
               max: 100,
@@ -66,10 +64,8 @@ class _InsertHeroState extends State<InsertHero> {
               onChanged: (val) {
                 if ((val) > 50) {
                   setState(() {
-                    stamina = val.toInt();
+                    health = val.toInt();
                   });
-                } else {
-                  return null;
                 }
               },
               max: 100,
@@ -83,10 +79,8 @@ class _InsertHeroState extends State<InsertHero> {
               onChanged: (val) {
                 if ((val) > 50) {
                   setState(() {
-                    stamina = val.toInt();
+                    charisma = val.toInt();
                   });
-                } else {
-                  return null;
                 }
               },
               max: 100,
@@ -121,9 +115,9 @@ class _InsertHeroState extends State<InsertHero> {
                   hero = model.Hero(
                     id: Helper.getAllHeroes().first.id + 1,
                     name: nameController.text,
+                    stamina: stamina,
                     health: health,
                     charisma: charisma,
-                    stamina: stamina,
                     origin: origin,
                   );
                   if (Helper.createHero(hero)) {

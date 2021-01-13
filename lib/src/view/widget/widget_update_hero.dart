@@ -60,8 +60,6 @@ class _UpdateHeroState extends State<UpdateHero> {
                 setState(() {
                   stamina = val.toInt();
                 });
-              } else {
-                return null;
               }
             },
               max: 100,
@@ -73,10 +71,8 @@ class _UpdateHeroState extends State<UpdateHero> {
             Slider(value: health.toDouble(), onChanged: (val) {
               if ((val) > 50) {
                 setState(() {
-                  stamina = val.toInt();
+                  health = val.toInt();
                 });
-              } else {
-                return null;
               }
             },
               max: 100,
@@ -88,10 +84,8 @@ class _UpdateHeroState extends State<UpdateHero> {
             Slider(value: charisma.toDouble(), onChanged: (val) {
               if ((val) > 50) {
                 setState(() {
-                  stamina = val.toInt();
+                  charisma = val.toInt();
                 });
-              } else {
-                return null;
               }
             },
               max: 100,
@@ -119,8 +113,8 @@ class _UpdateHeroState extends State<UpdateHero> {
                 onPressed: () {
                   hero.name = nameController.text;
                   hero.stamina = stamina;
-                  hero.charisma = charisma;
                   hero.health = health;
+                  hero.charisma = charisma;
                   hero.origin = origin;
                   if (Helper.updateHero(hero)) {
                     widget.onSuccess();

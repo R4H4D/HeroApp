@@ -4,9 +4,9 @@ import 'package:hero/src/util/constraints.dart';
 class Hero {
   int id;
   String name;
-  int health = 0;
-  int charisma = 0;
-  int stamina = 0;
+  int health = 1;
+  int charisma = 1;
+  int stamina = 1;
   Origin origin;
 
   Hero ({
